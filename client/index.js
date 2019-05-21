@@ -11,8 +11,10 @@ import App from './components/App'
 
 import './style/style.css';
 
-
-const client = new ApolloClient({});
+const client = new ApolloClient({
+    // allows apollo to track and fetch all objects with id.
+    dataIdFromObject: o => o.id
+});
 
 const Root = () => {
   return (
