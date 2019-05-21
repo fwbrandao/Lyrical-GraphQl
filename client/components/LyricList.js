@@ -4,25 +4,29 @@ import gql from 'graphql-tag';
 
 class LyricList extends Component {
 
-    onSongDelete(id) {
+    onLyricDelete(id) {
         console.log(id);
-        this.props.mutate({ variables: { id } });
-            // .then(() => this.props.data.refetch());
+        this.props.mutate({
+            variables: { id },
+            refetchQueries: [ this.props.lyrics ]
+        });
     }
 
     onLike(id) {
         console.log(id);
+        this.props.mutate({ variables: { id } });
     }
 
     renderLyrics() {
         const lyrics = this.props.lyrics;
-        return lyrics.map(({ id, content }) => {
+        return lyrics.map(({ id, content, likes }) => {
             console.log(lyrics);
            return (
                <li key={id} className="collection-item">
                     {content}
-                    <i className="material-icons" onClick={() => this.onLike(id)}>thumps_up</i>
-                    <i className="material-icons" onClick={() => this.onSongDelete(id)}>delete</i>
+                    <i className="material-icons" onClick={() => this.onLike(id)}>thumb_up</i>
+                    {likes}
+                    <i className="material-icons" onClick={() => this.onLyricDelete(id)}>delete</i>
                 </li>
             );
         });
@@ -44,5 +48,14 @@ mutation DeleteLyric($id: ID) {
     }
   }
 `;
+
+// const mutation = gql`
+// mutation LikeLyric($id: ID) {
+//     likeLyric(id: $id) {
+//       id
+//       likes
+//     }
+//   }
+// `;
 
 export default graphql(mutation)(LyricList);

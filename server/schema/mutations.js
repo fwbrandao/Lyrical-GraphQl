@@ -46,7 +46,7 @@ const mutation = new GraphQLObjectType({
         type: LyricType,
         args: { id: { type: GraphQLID } },
         resolve(parentValue, { id }) {
-            return Lyric.remove(id);
+          return Lyric.remove({ _id: id });
         }
     }
   }
