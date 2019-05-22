@@ -7,9 +7,10 @@ class LyricList extends Component {
     onLyricDelete(id) {
         console.log(id);
         this.props.mutate({
-            variables: { id },
-            refetchQueries: [ this.props.lyrics ]
-        });
+            variables: {
+                id
+            }
+        })
     }
 
     onLike(id) {
@@ -20,7 +21,6 @@ class LyricList extends Component {
     renderLyrics() {
         const lyrics = this.props.lyrics;
         return lyrics.map(({ id, content, likes }) => {
-            console.log(lyrics);
            return (
                <li key={id} className="collection-item">
                     {content}
@@ -41,7 +41,7 @@ class LyricList extends Component {
     }
 }
 
-const mutation = gql`
+const mutationDelete = gql`
 mutation DeleteLyric($id: ID) {
     deleteLyric(id: $id) {
       id
@@ -49,13 +49,13 @@ mutation DeleteLyric($id: ID) {
   }
 `;
 
-// const mutation = gql`
-// mutation LikeLyric($id: ID) {
-//     likeLyric(id: $id) {
-//       id
-//       likes
-//     }
-//   }
-// `;
+const mutationLike = gql`
+mutation LikeLyric($id: ID) {
+    likeLyric(id: $id) {
+      id
+      likes
+    }
+  }
+`;
 
-export default graphql(mutation)(LyricList);
+export default graphql(mutationLike)(LyricList);
