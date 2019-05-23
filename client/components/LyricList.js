@@ -13,9 +13,19 @@ class LyricList extends Component {
         })
     }
 
-    onLike(id) {
+    onLike(id, likes) {
         console.log(id);
-        this.props.mutate({ variables: { id } });
+        this.props.mutate({
+            variables: { id },
+            optimisticResponce: {
+                __typename: 'Mutation',
+                likeLyric: {
+                    id,
+                    __typename: 'LyricType',
+                    likes: likes + 1
+                }
+            }
+         });
     }
 
     renderLyrics() {
@@ -24,9 +34,11 @@ class LyricList extends Component {
            return (
                <li key={id} className="collection-item">
                     {content}
-                    <i className="material-icons" onClick={() => this.onLike(id)}>thumb_up</i>
-                    {likes}
-                    <i className="material-icons" onClick={() => this.onLyricDelete(id)}>delete</i>
+                    <div className="vote-box">
+                        {likes}
+                        <i className="material-icons" onClick={() => this.onLike(id, likes)}>thumb_up</i>
+                        <i className="material-icons" onClick={() => this.onLyricDelete(id)}>delete</i>
+                    </div>
                 </li>
             );
         });
