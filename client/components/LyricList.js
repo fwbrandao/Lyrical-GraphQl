@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { graphql } from 'react-apollo';
+import { graphql, compose } from 'react-apollo';
 import gql from 'graphql-tag';
 
 class LyricList extends Component {
@@ -70,4 +70,4 @@ mutation LikeLyric($id: ID) {
   }
 `;
 
-export default graphql(mutationLike)(LyricList);
+export default compose(graphql(mutationLike))(LyricList);
